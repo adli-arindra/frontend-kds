@@ -27,7 +27,7 @@ const TeamPage = () => {
                 className="rounded-full object-cover"
                 />
                 <p className="mt-4 text-lg font-semibold text-gray-900">Eleanor Cordelia</p>
-                <p className="text-sm text-gray-600">Student ID: 123456</p>
+                <p className="text-sm text-gray-600">Student ID: 18222059</p>
             </div>
 
             <div className="flex flex-col items-center text-center">
@@ -39,7 +39,7 @@ const TeamPage = () => {
                 className="rounded-full object-cover"
                 />
                 <p className="mt-4 text-lg font-semibold text-gray-900">Viktor Arsidiantoro S.</p>
-                <p className="text-sm text-gray-600">Student ID: 789012</p>
+                <p className="text-sm text-gray-600">Student ID: 18222083</p>
             </div>
 
             <div className="flex flex-col items-center text-center">
@@ -51,7 +51,7 @@ const TeamPage = () => {
                 className="rounded-full object-cover"
                 />
                 <p className="mt-4 text-lg font-semibold text-gray-900">Muhammad Adli A.</p>
-                <p className="text-sm text-gray-600">Student ID: 345678</p>
+                <p className="text-sm text-gray-600">Student ID: 18222089</p>
             </div>
             </div>
         </div>

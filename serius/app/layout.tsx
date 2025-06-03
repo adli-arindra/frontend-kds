@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "./components/navbar";
 import Footer from "./components/footer";
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-space-grotesk',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} antialiased`}
+        className={`${inter.variable} antialiased`}
       >
         <div className="bg-white overflow-x-clip">
           <NavBar/>
