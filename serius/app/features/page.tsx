@@ -8,7 +8,7 @@ const analysisModes = [
         alt: "Protein Sequence Analysis",
         title: "Protein Sequence Analysis",
         description: "Predict the behavior of a protein from its amino acid sequence with high accuracy.",
-        link: "/predict",
+        link: "/predict?tab=attribute",
     },
     {
         id: 2,
@@ -16,7 +16,15 @@ const analysisModes = [
         alt: "Protein Similarity Clustering",
         title: "Protein Similarity Clustering",
         description: "Group proteins with similar sequences to understand evolutionary relationships.",
-        link: "/predict",
+        link: "/predict?tab=similar-sequence",
+    },
+    {
+        id: 3,
+        src: "/features/3.png",
+        alt: "DNA/Protein Converter",
+        title: "DNA/Protein Converter",
+        description: "Get the protein sequence from a DNA sequence or vice versa.",
+        link: "/converter",
     },
 ];
 
@@ -30,7 +38,7 @@ const Features = () => {
                 <Image
                 src={mode.src}
                 alt={mode.alt}
-                width={400}
+                width={600}
                 height={400}
                 className="rounded-lg mb-4"
                 />

@@ -1,18 +1,40 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ResponseTable, { AnalysisResults } from './components/response-table';
+import Link from 'next/link';
 
 const PredictPage = () => {
-    const [dnaSequence, setDnaSequence] = useState('');
+    const searchParams = useSearchParams();
+    const [proteinSequence, setProteinSequence] = useState('');
     const [analysisResult, setAnalysisResult] = useState<AnalysisResults | undefined>(undefined);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [tab, setTab] = useState('attribute');
     const [similar, setSimilar] = useState('');
+    const [tabDescription, setTabDescription] = useState('');
+
+    useEffect(() => {
+        const queryTab = searchParams.get('tab');
+        if (queryTab) {
+            if (queryTab === 'attribute' || queryTab === 'similar-sequence') {
+                setTab(queryTab);
+            }
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
+        if (tab === 'attribute') {
+            setTabDescription("This tab will show you the attribute of a given protein sequence.")
+        } 
+        else {
+            setTabDescription("This tab will show you the most similar sequence to a given protein sequence.")
+        }
+    }, [tab]);
 
     const handleAnalyze = async () => {
-        if (!dnaSequence.trim()) {
-            setError('Please enter a DNA sequence.');
+        if (!proteinSequence.trim()) {
+            setError('Please enter a protein sequence.');
             setAnalysisResult(undefined);
             return;
         }
@@ -27,9 +49,9 @@ const PredictPage = () => {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ sequence: dnaSequence }),
+                body: JSON.stringify({ sequence: proteinSequence }),
             });
 
             if (!response.ok) {
@@ -74,15 +96,15 @@ const PredictPage = () => {
             </h1>
 
             <div className="mb-6">
-            <label htmlFor="dna-sequence" className="block text-gray-700 text-sm font-medium mb-2">
-                Enter DNA Sequence:
+            <label htmlFor="protein-sequence" className="block text-gray-700 text-sm font-medium mb-2">
+                Enter protein Sequence:
             </label>
             <textarea
-                id="dna-sequence"
+                id="protein-sequence"
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800 text-base resize-y"
                 rows={10}
-                value={dnaSequence}
-                onChange={(e) => setDnaSequence(e.target.value)}
+                value={proteinSequence}
+                onChange={(e) => setProteinSequence(e.target.value)}
                 placeholder="e.g., AGWLLLVVGAASVAGVGAWLLLVVGAASVAGVGAWLLLVVGAASVAGVGAWLLLVVGAASVAGVG"
             ></textarea>
             </div>
@@ -104,7 +126,7 @@ const PredictPage = () => {
             </div>
             )}
 
-            {analysisResult && (
+            {(
                 <div className="w-full bg-white border-b-2 border-gray-200 flex flex-row">
                     <div className="max-w-4xl mx-auto flex justify-start space-x-8">
                         <button
@@ -125,13 +147,13 @@ const PredictPage = () => {
                         <button
                             className={`
                             py-3 px-4 text-lg font-semibold focus:outline-none
-                            ${tab === "similar sequence"
+                            ${tab === "similar-sequence"
                                 ? 'text-blue-600 border-b-2 border-blue-600'
                                 : 'text-gray-600 hover:text-blue-600 hover:border-b-2 hover:border-blue-300'
                             }
                             transition-colors duration-200 ease-in-out
                             `}
-                            onClick={() => setTab('similar sequence')}
+                            onClick={() => setTab('similar-sequence')}
                         >
                             Similar Sequence
                         </button>
@@ -143,7 +165,7 @@ const PredictPage = () => {
                 <ResponseTable results={analysisResult}/>
             </div>
             )}
-            {analysisResult && tab === "similar sequence" && (
+            {analysisResult && tab === "similar-sequence" && (
             <div className="text-gray-800 py-4 text-wrap w-full space-y-2">
                 <h1>The most similar sequence to the one you provided is this one:</h1>
                 <div className='overflow-auto py-4 px-2 bg-gray-200 rounded-2xl'>
@@ -151,7 +173,16 @@ const PredictPage = () => {
                 </div>
             </div>
             )}
+            {!analysisResult && (
+                <div className='bg-white h-32 flex justify-center items-center'>
+                    <p className='text-gray-600 text-center'>{tabDescription}</p>
+                </div>
+            )}
         </div>
+        <Link href="/converter" 
+                className="text-blue-700 mt-4 hover:text-blue-400">
+                Want to convert a DNA sequence to protein sequence instead ?
+        </Link>
         </div>
     );
 };
